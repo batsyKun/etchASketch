@@ -1,0 +1,8 @@
+.gridItem {
+    background-color: blueviolet;
+}
+
+#container {
+    display: grid;
+}
+  
