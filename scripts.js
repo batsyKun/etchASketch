@@ -11,6 +11,7 @@ function createGrid(row, col) {
         for(let j = 0; j < col; j++) {
             const gridItem = document.createElement("div");
             gridItem.className = "gridItem";
+            gridItem.count = 0;
             container.appendChild(gridItem);
         }
     }
@@ -43,16 +44,20 @@ for (let i = 0; i < gridItems.length; i++) {
   const black = document.getElementById("black");
   const psy = document.getElementById("psy");
   const modern = document.getElementById("modern");
+  const erase = document.getElementById("erase");
+  const clear = document.getElementById("clear");
+
 
 //change data attribute value accoording to button clicked
   black.addEventListener("click", () => {container.setAttribute("data-color","classic")})
   psy.addEventListener("click", () => {container.setAttribute("data-color","psychedelic")})
   modern.addEventListener("click", () => {container.setAttribute("data-color","modern")})
+  erase.addEventListener("click", () => {container.setAttribute("data-color","erase")})
+
 
   //default value as black
   container.setAttribute("data-color","classic")
   const attributeValue = container.getAttribute("data-color");
-
 //select the color according to datatype 
 function paint(){
     const attributeValue = container.getAttribute("data-color");
@@ -62,9 +67,22 @@ function paint(){
     if (attributeValue == "psychedelic"){
         this.style.backgroundColor = `hsl(${randomRGB()}, 60%, 70%)`
     }
+    if(attributeValue == "modern"){
+        if(this.count < 9){
+            this.count +=1
+            this.style.backgroundColor = `rgba(0, 0, 0, .${this.count})`;
 
-    // this.style.backgroundColor = "black"
-    // this.style.backgroundColor = `hsl(${randomRGB()}, 60%, 70%)`
-    // this.style.backgroundColor = '#ffffff';
-    // this.style.backgroundColor = "rgba(0, 0, 0, .5)"
+        }
+    }
+    if(attributeValue == "erase"){
+        this.style.backgroundColor = "white";
+    }
+  
+
 }
+//since gridItems is an HTMLCollection object we need to convert it to an array to iterate.
+clear.addEventListener("click", () => {
+    Array.from(gridItems).forEach((item) => {
+        item.style.backgroundColor = "white";
+    });
+});
